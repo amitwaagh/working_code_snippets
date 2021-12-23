@@ -11,11 +11,13 @@ namespace {
     using std::cout;
     using std::string;
     using std::vector;
+    using std::unordered_map;
+    using std::list;
 
     auto constexpr nl {'\n'};
     
     template<typename Key = uint32_t, typename Value = int32_t>
-    class LRUCache {
+    class LRUCache final {
         using Capacity = uint32_t;
     public:
         explicit LRUCache(Capacity capacity) noexcept : capacity(capacity) {}
@@ -51,9 +53,10 @@ namespace {
 
     private:
         Capacity capacity {};
-        std::list<Key> recent;
-        std::unordered_map<Key, Value> cache;
-        std::unordered_map<Key, typename std::list<Key>::iterator> tracker;
+        list<Key> recent;
+        using KeyIterator = typename list<Key>::iterator;
+        unordered_map<Key, Value> cache;
+        unordered_map<Key, KeyIterator> tracker;
     };
 }
 
